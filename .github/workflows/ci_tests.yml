@@ -163,14 +163,14 @@ jobs:
             CMAKE_BUILD_TYPE: Release
             GCP_BUCKET: geosx/ubuntu22.04-gcc11
 
-         - name: Pangea3
-            DOCKER_REPOSITORY:ppc64le/almalinux:8.8-20230524
+          - name: Pangea3
+            DOCKER_REPOSITORY: ppc64le/almalinux:8.8-20230524
             CMAKE_BUILD_TYPE: Release
             HOST_CONFIG: host-configs/TOTAL/pangea3-gcc8.4.1-openmpi-4.1.2.cmake
             GCP_BUCKET: geosx/Pangea3
             ENABLE_HYPRE: ON
             ENABLE_TRILINOS: OFF
-            ARCH:ppc64le
+            ARCH: ppc64le
 
     steps:
     - name: Checkout Repository
@@ -230,8 +230,10 @@ jobs:
         tar czf ${GEOSX_BUNDLE} --directory=${TMP_DIR} ${GEOSX_EXPORT_DIR}
         #CLOUDSDK_PYTHON=python3 gsutil cp -a public-read ${GEOSX_BUNDLE} gs://${GCP_BUCKET}/
 
-     - name: Buid on arch and test and deploy
-       env:
+    - uses: uraimo/run-on-arch-action@v2
+    - name: Build on ppc64le/almalinux:8.8-20230524 ${ARCH}
+      if: ${{ matrix.ARCH && matrix.GCP_BUCKET }}
+      env:
         DOCKER_REPOSITORY: ${{ matrix.DOCKER_REPOSITORY }}
         CMAKE_BUILD_TYPE: ${{ matrix.CMAKE_BUILD_TYPE }}
         BUILD_AND_TEST_ARGS: ${{ matrix.BUILD_AND_TEST_ARGS }}
@@ -239,33 +241,18 @@ jobs:
         ENABLE_HYPRE: ${{ matrix.ENABLE_HYPRE }}
         ENABLE_TRILINOS: ${{ matrix.ENABLE_TRILINOS }}
         GCP_BUCKET: ${{ matrix.GCP_BUCKET }}
-        ARCH:${{ matrix.ARCH }}
-         # The host should always be Linux
-        runs-on: ubuntu-18.04
-        name: Build on ppc64le/almalinux:8.8-20230524 ${ARCH}
-        steps:
-         - uses: actions/checkout@v3
-         - uses: uraimo/run-on-arch-action@v2
-          name: Run commands
-          id: runcmd
-          with:
-            arch: ${ARCH}
-            distro: ppc64le/almalinux:8.8-20230524
+        ARCH: ${{ matrix.ARCH }}
 
-            # Not required, but speeds up builds by storing container images in
-            # a GitHub package registry.
-            # githubToken: ${{ github.token }}
+      with:
+        arch: ${ARCH}
+        distro: ppc64le/almalinux:8.8-20230524
 
-            # Set an output parameter `uname` for use in subsequent steps
-            run: |
-              uname -a
-              echo ::set-output name=uname::$(uname -a)
-
-         - name: Get the output
-           # Echo the `uname` output parameter from the `runcmd` step
-          run: |
-             echo "The uname output was ${{ steps.runcmd.outputs.uname }}"
-       run: |
+        # Not required, but speeds up builds by storing container images in
+        # a GitHub package registry.
+        # githubToken: ${{ github.token }}
+      run: |
+        uname -a
+        echo ::set-output name=uname::$(uname -a)
         source ./scripts/ci_build_and_test.sh
         TMP_DIR=/tmp
         GEOSX_EXPORT_DIR=GEOSX-and-TPL-${GITHUB_SHA:0:7}
@@ -273,6 +260,13 @@ jobs:
         GEOSX_BUNDLE=${TMP_DIR}/${GEOSX_EXPORT_DIR}.tar.gz
         tar czf ${GEOSX_BUNDLE} --directory=${TMP_DIR} ${GEOSX_EXPORT_DIR}
         #CLOUDSDK_PYTHON=python3 gsutil cp -a public-read ${GEOSX_BUNDLE} gs://${GCP_BUCKET}/
+        # Set an output parameter `uname` for use in subsequent steps
+
+    - name: Get the output
+      # Echo the `uname` output parameter from the `runcmd` step
+      run: |
+        echo "The uname output was ${{ steps.runcmd.outputs.uname }}"
+
 
   # Convenience job - passes when all other jobs have passed.
   check_that_all_jobs_succeeded:
