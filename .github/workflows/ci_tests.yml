@@ -231,7 +231,8 @@ jobs:
         #CLOUDSDK_PYTHON=python3 gsutil cp -a public-read ${GEOSX_BUNDLE} gs://${GCP_BUCKET}/
 
     - uses: uraimo/run-on-arch-action@v2
-    - name: Build on ppc64le/almalinux:8.8-20230524 ${ARCH}
+
+      name: Build on ppc64le/almalinux:8.8-20230524 ${ARCH}
       if: ${{ matrix.ARCH && matrix.GCP_BUCKET }}
       env:
         DOCKER_REPOSITORY: ${{ matrix.DOCKER_REPOSITORY }}
