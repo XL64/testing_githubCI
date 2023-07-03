@@ -245,7 +245,7 @@ jobs:
         ARCH: ${{ matrix.ARCH }}
 
       with:
-        arch: ${{ ARCH }}
+        arch: ${{ matrix.ARCH }}
         distro: ubuntu22.04
         # Not required, but speeds up builds by storing container images in
         # a GitHub package registry.
