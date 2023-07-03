@@ -179,11 +179,11 @@ jobs:
         submodules: true
         lfs: false
 
-    - id: 'auth'
-      if: matrix.GCP_BUCKET
-      uses: 'google-github-actions/auth@v1'
-      with:
-        credentials_json: '${{ secrets.GOOGLE_CLOUD_GCP }}'
+    #- id: 'auth'
+    #  if: matrix.GCP_BUCKET
+    #  uses: 'google-github-actions/auth@v1'
+    #  with:
+    #    credentials_json: '${{ secrets.GOOGLE_CLOUD_GCP }}'
 
     - name: 'Set up Cloud SDK'
       if: matrix.GCP_BUCKET
