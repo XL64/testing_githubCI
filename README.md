@@ -1,1 +1,1 @@
-A simple project to test Github-CI cross platform build
+A simple project to test Github-CI cross platform build.
