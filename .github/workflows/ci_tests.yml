@@ -252,9 +252,10 @@ jobs:
         # a GitHub package registry.
         # githubToken: ${{ github.token }}
         run: |
-          uname -a
-          echo ::set-output name=uname::$(uname -a)
-          lscpu
+          #uname -a
+          echo "{uname}={uname -a}" >> $GITHUB_OUTPUT
+          #lscpu
+          echo "{lscpu}={lscpu}" >> $GITHUB_OUTPUT
           source ./scripts/ci_build_and_test.sh
           TMP_DIR=/tmp
           GEOSX_EXPORT_DIR=GEOSX-and-TPL-${GITHUB_SHA:0:7}
