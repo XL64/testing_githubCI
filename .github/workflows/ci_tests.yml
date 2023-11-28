@@ -170,7 +170,7 @@ jobs:
             DOCKER_REPOSITORY: ppc64le/almalinux:8.8-20230524
             CMAKE_BUILD_TYPE: Release
             HOST_CONFIG: host-configs/TOTAL/pangea3-gcc8.4.1-openmpi-4.1.2.cmake
-            GCP_BUCKET: geosx/Pangea3
+            #GCP_BUCKET: geosx/Pangea3
             ENABLE_HYPRE: ON
             ENABLE_TRILINOS: OFF
             ARCH: ppc64le
