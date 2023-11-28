@@ -250,8 +250,8 @@ jobs:
         base_image: ppc64le/almalinux:8.8-20230718
 
         install: |
-          dnf update
-          dnf install git -y
+          dnf -y update
+          dnf -y install git which
 
         # Not required, but speeds up builds by storing container images in
         # a GitHub package registry.
