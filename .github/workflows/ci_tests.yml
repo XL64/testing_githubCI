@@ -231,14 +231,14 @@ jobs:
         tar czf ${GEOSX_BUNDLE} --directory=${TMP_DIR} ${GEOSX_EXPORT_DIR}
         #CLOUDSDK_PYTHON=python3 gsutil cp -a public-read ${GEOSX_BUNDLE} gs://${GCP_BUCKET}/
 
-    - name: Env for ppc64le/almalinux:8.8-20230524 ${ARCH}
+    - name: Env for ppc64le/almalinux:8.8-20230524 ${{ matrix.ARCH }}
       if: matrix.ARCH
       uses: uraimo/run-on-arch-action@v2
       with:
-        arch: ${ARCH}
+        arch: ${{ matrix.ARCH }}
         distro: ppc64le/almalinux:8.8-20230524
 
-    - name: Build on ppc64le/almalinux:8.8-20230524 ${ARCH}
+    - name: Build on ppc64le/almalinux:8.8-20230524 ${{ matrix.ARCH }}
       if: ${{ matrix.ARCH }} #&& matrix.GCP_BUCKET }}
       env:
         DOCKER_REPOSITORY: ${{ matrix.DOCKER_REPOSITORY }}
