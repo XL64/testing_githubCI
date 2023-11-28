@@ -250,6 +250,7 @@ jobs:
 
         install: |
           apk update
+          apk add util-linux
           apk add git
 
         # Not required, but speeds up builds by storing container images in
@@ -257,6 +258,7 @@ jobs:
         # githubToken: ${{ github.token }}
         run: |
           uname -a
+          echo "plop"
           lscpu
           #source ./scripts/ci_build_and_test.sh
           TMP_DIR=/tmp
