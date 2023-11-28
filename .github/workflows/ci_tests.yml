@@ -167,7 +167,7 @@ jobs:
             GCP_BUCKET: geosx/ubuntu22.04-gcc11
 
           - name: Pangea3
-            DOCKER_REPOSITORY: ppc64le/almalinux:8.4-minimal
+            DOCKER_REPOSITORY: ppc64le/almalinux:8.5-minimal
             CMAKE_BUILD_TYPE: Release
             HOST_CONFIG: host-configs/TOTAL/pangea3-gcc8.4.1-openmpi-4.1.2.cmake
             #GCP_BUCKET: geosx/Pangea3
@@ -247,7 +247,7 @@ jobs:
       with:
         arch: none
         distro: none
-        base_image: ppc64le/almalinux:8.4-minimal
+        base_image: ppc64le/almalinux:8.5-minimal
 
         install: |
           dnf update
