@@ -245,8 +245,9 @@ jobs:
 
       uses: uraimo/run-on-arch-action@v2
       with:
-        arch: ${{ matrix.ARCH }}
-        distro: alpine_latest
+        arch: none
+        distro: none
+        base_image: ppc64le/almalinux:8.4-minimal
 
         install: |
           dnf update
