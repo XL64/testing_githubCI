@@ -257,7 +257,7 @@ jobs:
         # githubToken: ${{ github.token }}
         run: |
           uname -a
-          echo "{uname}={uname -a}" >> $GITHUB_OUTPUT
+          echo "{uname}={uname -a}" > $GITHUB_OUTPUT
           lscpu
           echo "{lscpu}={lscpu}" >> $GITHUB_OUTPUT
           #source ./scripts/ci_build_and_test.sh
