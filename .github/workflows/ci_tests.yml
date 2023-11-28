@@ -236,7 +236,7 @@ jobs:
       uses: uraimo/run-on-arch-action@v2
       with:
         arch: ${{ matrix.ARCH }}
-        distro: ppc64le/almalinux:8.8-20230524
+        distro: alpine_latest
 
     - name: Build on ppc64le/almalinux:8.8-20230524 ${{ matrix.ARCH }}
       if: ${{ matrix.ARCH }} #&& matrix.GCP_BUCKET }}
