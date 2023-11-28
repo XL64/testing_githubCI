@@ -167,7 +167,7 @@ jobs:
             GCP_BUCKET: geosx/ubuntu22.04-gcc11
 
           - name: Pangea3
-            DOCKER_REPOSITORY: ppc64le/almalinux:8.5-minimal
+            DOCKER_REPOSITORY: ppc64le/almalinux:8.8-20230718
             CMAKE_BUILD_TYPE: Release
             HOST_CONFIG: host-configs/TOTAL/pangea3-gcc8.4.1-openmpi-4.1.2.cmake
             #GCP_BUCKET: geosx/Pangea3
@@ -231,7 +231,7 @@ jobs:
         tar czf ${GEOSX_BUNDLE} --directory=${TMP_DIR} ${GEOSX_EXPORT_DIR}
         #CLOUDSDK_PYTHON=python3 gsutil cp -a public-read ${GEOSX_BUNDLE} gs://${GCP_BUCKET}/
 
-    - name: Build for ppc64le/almalinux:8.5-minimal ${{ matrix.ARCH }}
+    - name: Build for ppc64le/almalinux:8.8-20230718 ${{ matrix.ARCH }}
       if: ${{ matrix.ARCH }} #&& matrix.GCP_BUCKET }}
       env:
         DOCKER_REPOSITORY: ${{ matrix.DOCKER_REPOSITORY }}
@@ -247,7 +247,7 @@ jobs:
       with:
         arch: none
         distro: none
-        base_image: ppc64le/almalinux:8.5-minimal
+        base_image: ppc64le/almalinux:8.8-20230718
 
         install: |
           dnf update
