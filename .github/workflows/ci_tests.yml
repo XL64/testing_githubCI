@@ -239,7 +239,7 @@ jobs:
         distro: ppc64le/almalinux:8.8-20230524
 
     - name: Build on ppc64le/almalinux:8.8-20230524 ${ARCH}
-      if: ${{ matrix.ARCH && matrix.GCP_BUCKET }}
+      if: ${{ matrix.ARCH }} #&& matrix.GCP_BUCKET }}
       env:
         DOCKER_REPOSITORY: ${{ matrix.DOCKER_REPOSITORY }}
         CMAKE_BUILD_TYPE: ${{ matrix.CMAKE_BUILD_TYPE }}
@@ -247,7 +247,7 @@ jobs:
         HOST_CONFIG: ${{ matrix.HOST_CONFIG }}
         ENABLE_HYPRE: ${{ matrix.ENABLE_HYPRE }}
         ENABLE_TRILINOS: ${{ matrix.ENABLE_TRILINOS }}
-        GCP_BUCKET: ${{ matrix.GCP_BUCKET }}
+       # GCP_BUCKET: ${{ matrix.GCP_BUCKET }}
         ARCH: ${{ matrix.ARCH }}
     
         # Not required, but speeds up builds by storing container images in
