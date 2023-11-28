@@ -167,7 +167,7 @@ jobs:
             GCP_BUCKET: geosx/ubuntu22.04-gcc11
 
           - name: Pangea3
-            DOCKER_REPOSITORY: ppc64le/almalinux:8.8-20230524
+            DOCKER_REPOSITORY: ppc64le/almalinux:8.4-minimal
             CMAKE_BUILD_TYPE: Release
             HOST_CONFIG: host-configs/TOTAL/pangea3-gcc8.4.1-openmpi-4.1.2.cmake
             #GCP_BUCKET: geosx/Pangea3
@@ -232,6 +232,48 @@ jobs:
         #CLOUDSDK_PYTHON=python3 gsutil cp -a public-read ${GEOSX_BUNDLE} gs://${GCP_BUCKET}/
 
     - name: Build for ppc64le/almalinux:8.8-20230524 ${{ matrix.ARCH }}
+      if: ${{ matrix.ARCH }} #&& matrix.GCP_BUCKET }}
+      env:
+        DOCKER_REPOSITORY: ${{ matrix.DOCKER_REPOSITORY }}
+        CMAKE_BUILD_TYPE: ${{ matrix.CMAKE_BUILD_TYPE }}
+        BUILD_AND_TEST_ARGS: ${{ matrix.BUILD_AND_TEST_ARGS }}
+        HOST_CONFIG: ${{ matrix.HOST_CONFIG }}
+        ENABLE_HYPRE: ${{ matrix.ENABLE_HYPRE }}
+        ENABLE_TRILINOS: ${{ matrix.ENABLE_TRILINOS }}
+      # GCP_BUCKET: ${{ matrix.GCP_BUCKET }}
+        ARCH: ${{ matrix.ARCH }}
+
+      uses: uraimo/run-on-arch-action@v2
+      with:
+        arch: ${{ matrix.ARCH }}
+        distro: alpine_latest
+
+        install: |
+          dnf update
+          dnf install git -y
+
+        # Not required, but speeds up builds by storing container images in
+        # a GitHub package registry.
+        # githubToken: ${{ github.token }}
+        run: |
+          uname -a
+          lscpu
+          #source ./scripts/ci_build_and_test.sh
+          TMP_DIR=/tmp
+          GEOSX_EXPORT_DIR=GEOSX-and-TPL-${GITHUB_SHA:0:7}
+          #docker cp -a ${CONTAINER_NAME}:${GEOSX_TPL_DIR}/.. ${TMP_DIR}/${GEOSX_EXPORT_DIR}
+          #GEOSX_BUNDLE=${TMP_DIR}/${GEOSX_EXPORT_DIR}.tar.gz
+          #tar czf ${GEOSX_BUNDLE} --directory=${TMP_DIR} ${GEOSX_EXPORT_DIR}
+          ##CLOUDSDK_PYTHON=python3 gsutil cp -a public-read ${GEOSX_BUNDLE} gs://${GCP_BUCKET}/
+          ## Set an output parameter `uname` for use in subsequent steps
+          
+    - name: Get the output
+      # Echo the `uname` output parameter from the `runcmd` step
+      run: |
+        echo "The uname output was ${{ steps.runcmd.outputs.uname }}"
+
+
+    - name: Build for ppc64le/alpine_latest ${{ matrix.ARCH }}
       if: ${{ matrix.ARCH }} #&& matrix.GCP_BUCKET }}
       env:
         DOCKER_REPOSITORY: ${{ matrix.DOCKER_REPOSITORY }}
