@@ -248,23 +248,27 @@ jobs:
         arch: ${{ matrix.ARCH }}
         distro: alpine_latest
 
+        install: |
+          apk update
+          apk add git
+
         # Not required, but speeds up builds by storing container images in
         # a GitHub package registry.
         # githubToken: ${{ github.token }}
         run: |
-          #uname -a
+          uname -a
           echo "{uname}={uname -a}" >> $GITHUB_OUTPUT
-          #lscpu
+          lscpu
           echo "{lscpu}={lscpu}" >> $GITHUB_OUTPUT
-          source ./scripts/ci_build_and_test.sh
+          #source ./scripts/ci_build_and_test.sh
           TMP_DIR=/tmp
           GEOSX_EXPORT_DIR=GEOSX-and-TPL-${GITHUB_SHA:0:7}
-          docker cp -a ${CONTAINER_NAME}:${GEOSX_TPL_DIR}/.. ${TMP_DIR}/${GEOSX_EXPORT_DIR}
-          GEOSX_BUNDLE=${TMP_DIR}/${GEOSX_EXPORT_DIR}.tar.gz
-          tar czf ${GEOSX_BUNDLE} --directory=${TMP_DIR} ${GEOSX_EXPORT_DIR}
-          #CLOUDSDK_PYTHON=python3 gsutil cp -a public-read ${GEOSX_BUNDLE} gs://${GCP_BUCKET}/
-          # Set an output parameter `uname` for use in subsequent steps
-
+          #docker cp -a ${CONTAINER_NAME}:${GEOSX_TPL_DIR}/.. ${TMP_DIR}/${GEOSX_EXPORT_DIR}
+          #GEOSX_BUNDLE=${TMP_DIR}/${GEOSX_EXPORT_DIR}.tar.gz
+          #tar czf ${GEOSX_BUNDLE} --directory=${TMP_DIR} ${GEOSX_EXPORT_DIR}
+          ##CLOUDSDK_PYTHON=python3 gsutil cp -a public-read ${GEOSX_BUNDLE} gs://${GCP_BUCKET}/
+          ## Set an output parameter `uname` for use in subsequent steps
+          
     - name: Get the output
       # Echo the `uname` output parameter from the `runcmd` step
       run: |
