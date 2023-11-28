@@ -1,5 +1,8 @@
-name: GEOS CI 
-on: pull_request
+name: GEOS CI
+
+on:
+  workflow_dispatch:
+  push:
 
 # Cancels in-progress workflows for a PR when updated
 concurrency:
