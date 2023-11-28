@@ -238,6 +238,10 @@ jobs:
         arch: ${{ matrix.ARCH }}
         distro: alpine_latest
 
+      run: |
+        uname -a
+        lscpu
+      
     - name: Build on ppc64le/almalinux:8.8-20230524 ${{ matrix.ARCH }}
       if: ${{ matrix.ARCH }} #&& matrix.GCP_BUCKET }}
       env:
