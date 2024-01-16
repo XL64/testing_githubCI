@@ -167,7 +167,7 @@ jobs:
             GCP_BUCKET: geosx/ubuntu22.04-gcc11
 
           - name: Pangea3
-            DOCKER_REPOSITORY: 7g8efcehpff/pangea-almalinux8-gcc9.4-openmpi4.1.2-cuda11.5.0-openblas0.3.18:2
+            DOCKER_REPOSITORY: 7g8efcehpff/pangea-almalinux8-gcc9.4-openmpi4.1.2-cuda11.5.0-openblas0.3.18
             CMAKE_BUILD_TYPE: Release
             HOST_CONFIG: host-configs/TOTAL/pangea3-gcc8.4.1-openmpi-4.1.2.cmake
             #GCP_BUCKET: geosx/Pangea3
@@ -231,14 +231,8 @@ jobs:
         tar czf ${GEOSX_BUNDLE} --directory=${TMP_DIR} ${GEOSX_EXPORT_DIR}
         #CLOUDSDK_PYTHON=python3 gsutil cp -a public-read ${GEOSX_BUNDLE} gs://${GCP_BUCKET}/
 
-    - name: Env for pangea ${ARCH}
-      if: matrix.ARCH
-      uses: uraimo/run-on-arch-action@v2
-      with:
-        arch: ${ARCH}
-        distro: 7g8efcehpff/pangea-almalinux8-gcc9.4-openmpi4.1.2-cuda11.5.0-openblas0.3.18:2
 
-    - name: Build on pangea reproduction ${ARCH}
+    - name: Build for pangea3 ${{ matrix.DOCKER_REPOSITORY }}  ${{ matrix.ARCH }}
       if: ${{ matrix.ARCH }} #&& matrix.GCP_BUCKET }}
       env:
         DOCKER_REPOSITORY: ${{ matrix.DOCKER_REPOSITORY }}
@@ -256,9 +250,8 @@ jobs:
         distro: none
         base_image: 7g8efcehpff/pangea-almalinux8-gcc9.4-openmpi4.1.2-cuda11.5.0-openblas0.3.18:2
 
-        #install: |
-        #  dnf -y update
-        #  dnf -y install git which
+        install: |
+          dnf -y install which
 
         # Not required, but speeds up builds by storing container images in
         # a GitHub package registry.
