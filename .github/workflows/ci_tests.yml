@@ -232,7 +232,7 @@ jobs:
         #CLOUDSDK_PYTHON=python3 gsutil cp -a public-read ${GEOSX_BUNDLE} gs://${GCP_BUCKET}/
 
 
-    - name: Build for pangea3 ${{ matrix.DOCKER_REPOSITORY }}  ${{ matrix.ARCH }}
+    - name: Pangea 3 ${{ matrix.DOCKER_REPOSITORY }}  ${{ matrix.ARCH }}
       if: ${{ matrix.ARCH }} #&& matrix.GCP_BUCKET }}
       env:
         DOCKER_REPOSITORY: ${{ matrix.DOCKER_REPOSITORY }}
@@ -249,13 +249,6 @@ jobs:
         arch: none
         distro: none
         base_image: 7g8efcehpff/pangea-almalinux8-gcc9.4-openmpi4.1.2-cuda11.5.0-openblas0.3.18:2
-
-        install: |
-          dnf -y install which
-
-        # Not required, but speeds up builds by storing container images in
-        # a GitHub package registry.
-        # githubToken: ${{ github.token }}
         run: |
           uname -a
           lscpu
