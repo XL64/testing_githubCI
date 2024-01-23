@@ -92,7 +92,7 @@ jobs:
   linux_builds:
     name: ${{ matrix.name }}
     runs-on: ubuntu-22.04
-    needs: [check_pull_request_is_not_a_draft]
+    #needs: [check_pull_request_is_not_a_draft]
     strategy:
 
       # In-progress jobs will not be cancelled if there is a failure
