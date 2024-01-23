@@ -246,7 +246,7 @@ jobs:
 
       uses: uraimo/run-on-arch-action@v2
       with:
-        arch: none
+        arch: ppc64le
         distro: none
         base_image: 7g8efcehpff/pangea-almalinux8-gcc9.4-openmpi4.1.2-cuda11.5.0-openblas0.3.18:2
         run: |
