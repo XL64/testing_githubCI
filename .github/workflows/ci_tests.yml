@@ -241,7 +241,7 @@ jobs:
 
 
     - name: Pangea 3 ${{ matrix.DOCKER_REPOSITORY }}  ${{ matrix.ARCH }}
-      if: ${{ matrix.ARCH == none }}
+      if: ${{ matrix.ARCH == "none" }}
       env:
         DOCKER_REPOSITORY: ${{ matrix.DOCKER_REPOSITORY }}
         CMAKE_BUILD_TYPE: ${{ matrix.CMAKE_BUILD_TYPE }}
@@ -283,7 +283,7 @@ jobs:
   #    run: "true"
 
     - name: Fedora ${{ matrix.DOCKER_REPOSITORY }}  ${{ matrix.ARCH }}
-      if: ${{ matrix.ARCH == ppc64le }}
+      if: ${{ matrix.ARCH == "ppc64le" }}
  
       uses: uraimo/run-on-arch-action@v2
       with:
