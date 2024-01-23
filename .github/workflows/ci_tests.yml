@@ -175,15 +175,15 @@ jobs:
             ENABLE_TRILINOS: OFF
             ARCH: none
             DISTRO: none
-            base_image: 7g8efcehpff/pangea-almalinux8-gcc9.4-openmpi4.1.2-cuda11.5.0-openblas0.3.18
 
           - name: Fedora
+            DOCKER_REPOSITORY: ppc64le/fedora
             CMAKE_BUILD_TYPE: Release
             HOST_CONFIG: host-configs/TOTAL/pangea3-gcc8.4.1-openmpi-4.1.2.cmake
             ENABLE_HYPRE: ON
             ENABLE_TRILINOS: OFF
             ARCH: ppc64le
-            DISTRO: ppc64le/fedora_latest
+            DISTRO: fedora_latest
 
     steps:
     - name: Checkout Repository
@@ -258,9 +258,12 @@ jobs:
       with:
         arch: ${{ matrix.ARCH }}
         distro: ${{ matrix.DISTRO }}
+        base_image: ${{ matrix.DOCKER_REPOSITORY }}
+
         run: |
           uname -a
           lscpu
+
           #source ./scripts/ci_build_and_test.sh
           #TMP_DIR=/tmp
           #GEOSX_EXPORT_DIR=GEOSX-and-TPL-${GITHUB_SHA:0:7}
