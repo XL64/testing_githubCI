@@ -175,6 +175,14 @@ jobs:
             ENABLE_TRILINOS: OFF
             ARCH: ppc64le
 
+          - name: Fedora
+            DOCKER_REPOSITORY: none #7g8efcehpff/pangea-almalinux8-gcc9.4-openmpi4.1.2-cuda11.5.0-openblas0.3.18
+            CMAKE_BUILD_TYPE: Release
+            HOST_CONFIG: host-configs/TOTAL/pangea3-gcc8.4.1-openmpi-4.1.2.cmake
+            ENABLE_HYPRE: ON
+            ENABLE_TRILINOS: OFF
+            ARCH: ppc64le
+
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
@@ -273,3 +281,13 @@ jobs:
   #  steps:
   #  - name: Success
   #    run: "true"
+
+    - name: Fedora ${{ matrix.DOCKER_REPOSITORY }}  ${{ matrix.ARCH }}
+
+      uses: uraimo/run-on-arch-action@v2
+      with:
+        arch: ppc64le
+        distro: fedora
+        run: |
+          uname -a
+          lscpu
