@@ -174,14 +174,16 @@ jobs:
             ENABLE_HYPRE: ON
             ENABLE_TRILINOS: OFF
             ARCH: none
+            DISTRO: none
+            base_image: 7g8efcehpff/pangea-almalinux8-gcc9.4-openmpi4.1.2-cuda11.5.0-openblas0.3.18
 
           - name: Fedora
-            DOCKER_REPOSITORY: none #7g8efcehpff/pangea-almalinux8-gcc9.4-openmpi4.1.2-cuda11.5.0-openblas0.3.18
             CMAKE_BUILD_TYPE: Release
             HOST_CONFIG: host-configs/TOTAL/pangea3-gcc8.4.1-openmpi-4.1.2.cmake
             ENABLE_HYPRE: ON
             ENABLE_TRILINOS: OFF
             ARCH: ppc64le
+            DISTRO: ppc64le/fedora_latest
 
     steps:
     - name: Checkout Repository
@@ -240,8 +242,8 @@ jobs:
     #    #CLOUDSDK_PYTHON=python3 gsutil cp -a public-read ${GEOSX_BUNDLE} gs://${GCP_BUCKET}/
 
 
-    - name: Pangea 3 ${{ matrix.DOCKER_REPOSITORY }}  ${{ matrix.ARCH }}
-      if: ${{ matrix.ARCH == "none" }}
+    - name: ${{ matrix.ARCH }} ${{ matrix.DISTRO}} ${{ matrix.DOCKER_REPOSITORY }}
+      if: ${{ matrix.ARCH }}
       env:
         DOCKER_REPOSITORY: ${{ matrix.DOCKER_REPOSITORY }}
         CMAKE_BUILD_TYPE: ${{ matrix.CMAKE_BUILD_TYPE }}
@@ -254,9 +256,8 @@ jobs:
 
       uses: uraimo/run-on-arch-action@v2
       with:
-        arch: none
-        distro: none
-        base_image: 7g8efcehpff/pangea-almalinux8-gcc9.4-openmpi4.1.2-cuda11.5.0-openblas0.3.18:2
+        arch: ${{ matrix.ARCH }}
+        distro: ${{ matrix.DISTRO }}
         run: |
           uname -a
           lscpu
@@ -281,14 +282,3 @@ jobs:
   #  steps:
   #  - name: Success
   #    run: "true"
-
-    - name: Fedora ${{ matrix.DOCKER_REPOSITORY }}  ${{ matrix.ARCH }}
-      if: ${{ matrix.ARCH == "ppc64le" }}
- 
-      uses: uraimo/run-on-arch-action@v2
-      with:
-        arch: ppc64le
-        distro: fedora_latest
-        run: |
-          uname -a
-          lscpu
