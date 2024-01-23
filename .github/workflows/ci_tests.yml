@@ -166,24 +166,24 @@ jobs:
           #  CMAKE_BUILD_TYPE: Release
           #  GCP_BUCKET: geosx/ubuntu22.04-gcc11
 
-          - name: Pangea3
-            DOCKER_REPOSITORY: 7g8efcehpff/pangea-almalinux8-gcc9.4-openmpi4.1.2-cuda11.5.0-openblas0.3.18
-            CMAKE_BUILD_TYPE: Release
-            HOST_CONFIG: host-configs/TOTAL/pangea3-gcc8.4.1-openmpi-4.1.2.cmake
-            #GCP_BUCKET: geosx/Pangea3
-            ENABLE_HYPRE: ON
-            ENABLE_TRILINOS: OFF
-            ARCH: none
-            DISTRO: none
+          #- name: Pangea3
+          #  DOCKER_REPOSITORY: 7g8efcehpff/pangea-almalinux8-gcc9.4-openmpi4.1.2-cuda11.5.0-openblas0.3.18
+          #  CMAKE_BUILD_TYPE: Release
+          #  HOST_CONFIG: host-configs/TOTAL/pangea3-gcc8.4.1-openmpi-4.1.2.cmake
+          #  #GCP_BUCKET: geosx/Pangea3
+          #  ENABLE_HYPRE: ON
+          #  ENABLE_TRILINOS: OFF
+          #  ARCH: none
+          #  DISTRO: none
 
-          - name: Fedora
-            DOCKER_REPOSITORY: ppc64le/fedora
+          - name: Ubuntu
+            #DOCKER_REPOSITORY: ppc64le/ubuntu
             CMAKE_BUILD_TYPE: Release
             HOST_CONFIG: host-configs/TOTAL/pangea3-gcc8.4.1-openmpi-4.1.2.cmake
             ENABLE_HYPRE: ON
             ENABLE_TRILINOS: OFF
             ARCH: ppc64le
-            DISTRO: fedora_latest
+            DISTRO: ubuntu_latest
 
     steps:
     - name: Checkout Repository
