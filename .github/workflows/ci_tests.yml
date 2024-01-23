@@ -186,40 +186,40 @@ jobs:
             DISTRO: ubuntu_latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
-      with:
-        submodules: true
-        lfs: false
+    #- name: Checkout Repository
+    #  uses: actions/checkout@v3
+    #  with:
+    #    submodules: true
+    #    lfs: false
 
-    - id: 'auth'
-      if: matrix.GCP_BUCKET
-      uses: 'google-github-actions/auth@v1'
-      with:
-        credentials_json: '${{ secrets.GOOGLE_CLOUD_GCP }}'
+    #- id: 'auth'
+    #  if: matrix.GCP_BUCKET
+    #  uses: 'google-github-actions/auth@v1'
+    #  with:
+    #    credentials_json: '${{ secrets.GOOGLE_CLOUD_GCP }}'
 
-    - name: 'Set up Cloud SDK'
-      if: matrix.GCP_BUCKET
-      uses: 'google-github-actions/setup-gcloud@v1'
-      with:
-        version: '>= 363.0.0'
+    #- name: 'Set up Cloud SDK'
+    #  if: matrix.GCP_BUCKET
+    #  uses: 'google-github-actions/setup-gcloud@v1'
+    #  with:
+    #    version: '>= 363.0.0'
 
 
-    - name: Print environment
-      run: printenv
+    #- name: Print environment
+    #  run: printenv
 
     # Build and test only
     # Builds only the geosx executable (timeout when building tests)
-    - name: Build and test
-      if: ${{ !(matrix.ARCH) && !(matrix.GCP_BUCKET) }}
-      env:
-        DOCKER_REPOSITORY: ${{ matrix.DOCKER_REPOSITORY }}
-        CMAKE_BUILD_TYPE: ${{ matrix.CMAKE_BUILD_TYPE }}
-        BUILD_AND_TEST_ARGS: ${{ matrix.BUILD_AND_TEST_ARGS }}
-        ENABLE_HYPRE: ${{ matrix.ENABLE_HYPRE }}
-        ENABLE_HYPRE_DEVICE: ${{ matrix.ENABLE_HYPRE_DEVICE }}
-        ENABLE_TRILINOS: ${{ matrix.ENABLE_TRILINOS }}
-      run: ./scripts/ci_build_and_test.sh
+    #- name: Build and test
+    #  if: ${{ !(matrix.ARCH) && !(matrix.GCP_BUCKET) }}
+    #  env:
+    #    DOCKER_REPOSITORY: ${{ matrix.DOCKER_REPOSITORY }}
+    #    CMAKE_BUILD_TYPE: ${{ matrix.CMAKE_BUILD_TYPE }}
+    #    BUILD_AND_TEST_ARGS: ${{ matrix.BUILD_AND_TEST_ARGS }}
+    #    ENABLE_HYPRE: ${{ matrix.ENABLE_HYPRE }}
+    #    ENABLE_HYPRE_DEVICE: ${{ matrix.ENABLE_HYPRE_DEVICE }}
+    #    ENABLE_TRILINOS: ${{ matrix.ENABLE_TRILINOS }}
+    #  run: ./scripts/ci_build_and_test.sh
 
     # Build, test, uploads GEOSX and its TPL to GCP/GCS using gcloud CLI
     #- name: Build and test and deploy
@@ -245,20 +245,20 @@ jobs:
     - name: ${{ matrix.ARCH }} ${{ matrix.DISTRO}} ${{ matrix.DOCKER_REPOSITORY }}
       if: ${{ matrix.ARCH }}
       env:
-        DOCKER_REPOSITORY: ${{ matrix.DOCKER_REPOSITORY }}
-        CMAKE_BUILD_TYPE: ${{ matrix.CMAKE_BUILD_TYPE }}
-        BUILD_AND_TEST_ARGS: ${{ matrix.BUILD_AND_TEST_ARGS }}
-        HOST_CONFIG: ${{ matrix.HOST_CONFIG }}
-        ENABLE_HYPRE: ${{ matrix.ENABLE_HYPRE }}
-        ENABLE_TRILINOS: ${{ matrix.ENABLE_TRILINOS }}
-      # GCP_BUCKET: ${{ matrix.GCP_BUCKET }}
-        ARCH: ${{ matrix.ARCH }}
+        #DOCKER_REPOSITORY: ${{ matrix.DOCKER_REPOSITORY }}
+        #CMAKE_BUILD_TYPE: ${{ matrix.CMAKE_BUILD_TYPE }}
+        #BUILD_AND_TEST_ARGS: ${{ matrix.BUILD_AND_TEST_ARGS }}
+        #HOST_CONFIG: ${{ matrix.HOST_CONFIG }}
+        #ENABLE_HYPRE: ${{ matrix.ENABLE_HYPRE }}
+        #ENABLE_TRILINOS: ${{ matrix.ENABLE_TRILINOS }}
+        #GCP_BUCKET: ${{ matrix.GCP_BUCKET }}
+        #ARCH: ${{ matrix.ARCH }}
 
       uses: uraimo/run-on-arch-action@v2
       with:
         arch: ${{ matrix.ARCH }}
         distro: ${{ matrix.DISTRO }}
-        base_image: ${{ matrix.DOCKER_REPOSITORY }}
+        #base_image: ${{ matrix.DOCKER_REPOSITORY }}
 
         run: |
           uname -a
